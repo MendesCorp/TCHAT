@@ -1,5 +1,9 @@
 #pragma once
 
+#define MAX_USERS 2077
+int users[MAX_USERS];
+int serv_fd; 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
