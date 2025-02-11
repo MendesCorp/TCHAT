@@ -12,5 +12,5 @@
 #include <pthread.h> // pr ls threads
 
 #define SERV_PORT 2077
-
+#define BUF_SIZE 500
 #include "fonctions.c"

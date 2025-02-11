@@ -1,8 +1,9 @@
+#pragma once
 #include "global.h"
 
-int initSocket(int serv_fd) {
+int initSocket() {
 
-    serv_fd = socket(AF_INET, SOCK_STREAM, 0); perror("socket");
+    int serv_fd = socket(AF_INET, SOCK_STREAM, 0); perror("socket");
     if(serv_fd == -1) return EXIT_FAILURE;
 
     struct sockaddr_in serv = {
