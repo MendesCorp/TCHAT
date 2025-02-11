@@ -16,7 +16,7 @@
         <mxCell id="WHeHIBvtUrrH12inf8rz-6" value="serv_fd = initSocket()" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="350" y="131" width="127" height="45" as="geometry" />
         </mxCell>
-        <mxCell id="WHeHIBvtUrrH12inf8rz-9" value="thread_accept(&lt;font style=&quot;color: rgb(51, 51, 255);&quot;&gt;int client_fd&lt;/font&gt;)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="WHeHIBvtUrrH12inf8rz-9" value="thread_accept(&lt;font color=&quot;#3333ff&quot;&gt;accept&lt;/font&gt;)" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="350" y="332" width="127" height="45" as="geometry" />
         </mxCell>
       </root>
