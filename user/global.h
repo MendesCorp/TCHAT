@@ -17,8 +17,8 @@ int identifiants_clients[MAX_USERS];
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define USER_PORT 4025
-#define SERV_PORT 1998
+#define USER_PORT 5892
+#define SERV_PORT 1999
 
 #define BUF_SIZE 500
 #include "fonctions.c"
