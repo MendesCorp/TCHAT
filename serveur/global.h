@@ -1,8 +1,9 @@
 #pragma once
 
-#define MAX_USERS 2077
+#define MAX_USERS 50
 int users[MAX_USERS];
 int serv_fd; 
+int identifiants_clients[MAX_USERS];
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +16,6 @@ int serv_fd;
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define SERV_PORT 2078
+#define SERV_PORT 1998
 #define BUF_SIZE 500
 #include "fonctions.c"

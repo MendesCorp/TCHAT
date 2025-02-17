@@ -4,6 +4,7 @@
 int users[MAX_USERS];
 int user_fd;
 int serv_fd; 
+int identifiants_clients[MAX_USERS];
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,8 +17,8 @@ int serv_fd;
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define USER_PORT 4028
-#define SERV_PORT 2078
+#define USER_PORT 4025
+#define SERV_PORT 1998
 
 #define BUF_SIZE 500
 #include "fonctions.c"
