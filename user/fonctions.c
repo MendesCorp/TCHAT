@@ -1,7 +1,8 @@
 #pragma once
 #include "global.h"
 
-int initSocket() {
+int initSocket() 
+{
 
     int user_fd = socket(AF_INET, SOCK_STREAM, 0); perror("socket");
     if(user_fd == -1) return EXIT_FAILURE;

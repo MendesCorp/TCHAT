@@ -1,8 +1,21 @@
 #include "global.h"
 
-int main() {
+void * send_routine(void *arg)
+{
+   // int* user_fd = (int*)arg;
+    for(int i = 1; i < MAX_USERS; i++) {
 
-    int user_fd = initSocket();
+        char buf[255];
+        fgets(buf,sizeof(buf),stdin);
+        int error = send(user_fd, buf, sizeof(buf), 0); perror("send");
+        if (error != -1); return EXIT_SUCCESS;
+    }
+}
+
+int main() 
+{
+
+    user_fd = initSocket();
 
     printf("\n###################### TCHAT ###################\n");
     printf("- create salon : créer un salon de discussion publique\n");
@@ -18,11 +31,21 @@ int main() {
     printf("Qui est connecté ?\n");
     fgets(name, 255, stdin);
     printf("./tchat connect %s\n", name);
-
-    int error = send(user_fd, name, sizeof(name), 0); perror("send");
-    if(error == -1) return EXIT_FAILURE;
-
     
+    pthread_t send_thread;
+    pthread_create(&send_thread, NULL, send_routine, &serv_fd);
+    
+
+    while(1){}
+
+
+
+
+
+
+
+
+
 
 
 
