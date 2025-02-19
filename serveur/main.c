@@ -1,28 +1,18 @@
 #include "global.h"
 
-void * accept_routine(void *arg)
-{
-    // "struct" client
-    struct sockaddr_in user;
-    socklen_t len;
-    printf("accept_routine");
-    
-    for(int i = 0; i < MAX_USERS; i++) {
-        int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");
-        if(fd != -1) user_fd[i] = fd; // vérifcation d'erreurs
-        compteur_clients ++;
-    }    
-}
 
 void * recv_routine(void *arg)
 {
+    printf("recv_routine\n");
     char buf[255];
-
-    for(int i = 0; i < compteur_clients; i++) 
+    
+    int* fd = (int*) arg;   // transtypage void* arg en int
+    
+    while(1) 
     {
-        printf("recv_routine");
-        int nb_data_recved = recv(user_fd[i], buf, sizeof(buf), 0); perror("rcv");
-
+        
+        int nb_data_recved = recv(*fd, buf, sizeof(buf), 0); perror("rcv"); // *fd pour accéder à la valeur pointée
+        
         if(nb_data_recved == -1)
         {
             printf("erreur incongrue \n");
@@ -32,15 +22,30 @@ void * recv_routine(void *arg)
         if(nb_data_recved == 0)
         {
             printf("utilisateur gone  :'(\n");continue;
-        /// ici entrer le code en cas d'utilisateur parti
-        // nb_users_quittants ++ ?
+            //s ici entrer le code en cas d'utilisateur parti
+            // nb_users_quittants ++ ?
         }
-
-        printf("test :%s\n", buf);
-
-        if(compteur_clients == i) i = 0;
         
+        printf("test :%s\n", buf);
     }
+}
+
+void * accept_routine(void *arg)
+{
+    // "struct" client
+    struct sockaddr_in user;
+    socklen_t len;
+    printf("accept_routine\n");
+
+    for(int i = 0; i < MAX_USERS; i++) {
+
+        int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");  // fd = valeur tampon
+        if(fd != -1) user_fd[i] = fd; // vérifcation d'erreurs
+        compteur_clients ++;
+        pthread_t recv_thread;
+        pthread_create(&recv_thread, NULL, recv_routine, &user_fd[i]);
+        pthread_join(recv_thread,NULL);
+    }    
 }
 
 int main () 
@@ -53,11 +58,8 @@ int main ()
     pthread_join(accept_thread,NULL);
     
     char buf[255]; memset(buf, 0, 255);
-    pthread_t recv_thread;
-    pthread_create(&recv_thread, NULL, recv_routine, NULL);
-    pthread_join(recv_thread,NULL);
-    
-    
+
     close(serv_fd);
+
     return 0;
 }

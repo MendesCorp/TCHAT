@@ -17,6 +17,6 @@ int compteur_clients = 0;
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define SERV_PORT 4329
+#define SERV_PORT 8561
 #define BUF_SIZE 500
 #include "fonctions.c"
