@@ -19,7 +19,7 @@ int initSocket() {
     error = listen(serv_fd, BUFSIZ); perror("listen");
     if(error == -1) return EXIT_FAILURE;
 
-    printf("Ecoute en cours sur le port %d\n", SERV_PORT);
+    printf("\nÉcoute en cours sur le port %d\n", SERV_PORT);
 
     return(serv_fd);
 }
