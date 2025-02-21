@@ -17,8 +17,20 @@ int identifiants_clients[MAX_USERS];
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define USER_PORT 1999
-#define SERV_PORT 4329
+#define USER_PORT 3950
+#define SERV_PORT 9999
 
 #define BUF_SIZE 500
+
+typedef struct delivery {
+    int id_user;
+    char message;
+    int salon;
+}t_delivery; 
+
+typedef struct room {
+    int id_room;
+    char name;
+    int nb_users;
+}t_room;
 #include "fonctions.c"
