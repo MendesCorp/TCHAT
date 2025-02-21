@@ -1,17 +1,5 @@
 #include "global.h"
 
-void * send_routine(void *arg)
-{
-   // int* user_fd = (int*)arg;
-    for(int i = 1; i < MAX_USERS; i++) {
-
-        char buf[255];
-        fgets(buf,sizeof(buf),stdin);
-        int error = send(user_fd, buf, sizeof(buf), 0); perror("send");
-        if (error != -1); return EXIT_SUCCESS;
-    }
-}
-
 int main() 
 {
 
@@ -27,13 +15,16 @@ int main()
     printf("- exit : Se déconnecter ou revenir en arrière\n");
     printf("################################################\n\n");
 
-    char name[255]; memset(name, 0, 255);
-    printf("Qui est connecté ?\n");
-    fgets(name, 255, stdin);
-    printf("./tchat connect %s\n", name);
+    // char name[255]; memset(name, 0, 255);    commande connect à coder avec strtok
+    // printf("Qui est connecté ?\n");
+    // fgets(name, 255, stdin);
+    // printf("./tchat connect %s\n", name);
     
+    printf("début thread SEND\n");
     pthread_t send_thread;
     pthread_create(&send_thread, NULL, send_routine, &serv_fd);
+    printf("AP thread SEND\n");
+
     
 
     while(1){}

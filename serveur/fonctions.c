@@ -14,7 +14,7 @@ int initSocket() {
     };
 
     int error = bind(serv_fd, (struct sockaddr*) &serv, sizeof(serv)); perror("bind");
-    if(error == -1) return EXIT_FAILURE; 
+    if(error == -1) return EXIT_FAILURE;
 
     error = listen(serv_fd, BUFSIZ); perror("listen");
     if(error == -1) return EXIT_FAILURE;
@@ -24,4 +24,61 @@ int initSocket() {
     return(serv_fd);
 }
 
+void * recv_routine(void *arg)
+{
+    printf("recv_routine\n");
     
+    int* fd = (int*) arg;   // transtypage void* arg en int
+
+    t_delivery user;
+    char buf[255];memset(buf, 0, 255);
+    user.message = *buf;
+    
+    while(1) 
+    {
+        
+        int nb_data_recved = recv(*fd, &user, sizeof(t_delivery), 0); perror("rcv"); // *fd pour accéder à la valeur pointée
+        
+        if(nb_data_recved == -1)
+        {
+            printf("erreur incongrue \n");
+            continue;
+        }
+        
+        if(nb_data_recved == 0)
+        {
+            printf("utilisateur gone  :'(\n");continue;
+            //s ici entrer le code en cas d'utilisateur parti
+            // nb_users_quittants ++ ?
+        }
+        
+        printf("%s\n", user.message);
+    }
+}
+
+void * accept_routine(void *arg)
+{
+    // "struct" client
+    struct sockaddr_in user;
+    socklen_t len;
+    printf("accept_routine\n");
+
+    for(int i = 0; i < MAX_USERS; i++) {
+
+        int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");  // fd = valeur tampon
+        int client_fd = fd;
+        compteur_clients ++;
+        pthread_t recv_thread;
+        pthread_create(&recv_thread, NULL, recv_routine, &client_fd);
+        pthread_join(recv_thread,NULL);
+    }    
+}
+
+void * traitement_rcv(void *arg)
+{
+    
+    
+// recup rcv client pour send au bon destinataire.
+
+
+}
