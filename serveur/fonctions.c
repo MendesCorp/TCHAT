@@ -1,6 +1,12 @@
 #pragma once
 #include "global.h"
 
+/*
+commentaire 
+multiligne 
+pour expliquer à quoi sert la fonction
+*/
+
 int initSocket() {
 
     int serv_fd = socket(AF_INET, SOCK_STREAM, 0); perror("socket");
@@ -24,6 +30,12 @@ int initSocket() {
     return(serv_fd);
 }
 
+/*
+commentaire 
+multiligne 
+pour expliquer à quoi sert la fonction
+*/
+
 void * recv_routine(void *arg)
 {
     printf("recv_routine\n");
@@ -31,7 +43,7 @@ void * recv_routine(void *arg)
     int* fd = (int*) arg;   // transtypage void* arg en int
 
     t_delivery user;
-    char buf[255];memset(buf, 0, 255);
+    char buf[255]; memset(buf, 0, 255);
     user.message = *buf;
     
     while(1) 
@@ -41,7 +53,7 @@ void * recv_routine(void *arg)
         
         if(nb_data_recved == -1)
         {
-            printf("erreur incongrue \n");
+            printf("erreur rcv//\n");
             continue;
         }
         
@@ -55,6 +67,12 @@ void * recv_routine(void *arg)
         printf("%s\n", user.message);
     }
 }
+
+/*
+commentaire 
+multiligne 
+pour expliquer à quoi sert la fonction
+*/
 
 void * accept_routine(void *arg)
 {
@@ -73,6 +91,12 @@ void * accept_routine(void *arg)
         pthread_join(recv_thread,NULL);
     }    
 }
+
+/*
+commentaire 
+multiligne 
+pour expliquer à quoi sert la fonction
+*/
 
 void * traitement_rcv(void *arg)
 {
