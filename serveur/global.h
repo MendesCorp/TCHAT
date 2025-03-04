@@ -18,13 +18,15 @@ int nb_data_recved;
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define SERV_PORT 8965
+#define SERV_PORT 8950
 #define BUF_SIZE 500
 
 typedef struct delivery {
+    char prenom [255];
     int id_user;
     char message[255];
-int salon;
+    int salon;
+    int user_fd;
 }t_delivery; 
 
 typedef struct room {

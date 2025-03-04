@@ -2,10 +2,10 @@
 
 int main(int argc, char** argv) 
 {
-
-    user_fd = initSocket();
-
     t_delivery user;
+    
+    user.user_fd = initSocket();
+
     char prenom [255]; strcpy(prenom, argv[1]);
     strcpy(user.prenom, prenom);
 
@@ -21,6 +21,7 @@ int main(int argc, char** argv)
     
     printf("Bienvenue %s\n", user.prenom);
     pthread_t send_thread;
+    pthread_create(&send_thread, NULL, send_routine, &user);
 
     
 
@@ -39,7 +40,7 @@ int main(int argc, char** argv)
 
 
 
-    close(user_fd);
+    close(user.user_fd);
 
     return 0;
 }

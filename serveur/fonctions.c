@@ -41,13 +41,14 @@ void * recv_routine(void *arg)
     int fd = *(int*) arg;   // transtypage void* arg en int
 
     t_delivery user;
-    char buf[255]; memset(buf, 0, 255);
-    strcpy(user.message, buf);
+    
+   
     
     while(1) 
     {
         
         int nb_data_recved = recv(fd, &user, sizeof(t_delivery), 0); perror("rcv"); // *fd pour accéder à la valeur pointée
+        printf("%s: %s \n",user.prenom,user.message);
         
         if(nb_data_recved == -1)
         {
@@ -62,7 +63,6 @@ void * recv_routine(void *arg)
             // nb_users_quittants ++ ?
         }
         
-        printf("%s\n", user.message);
     }
 }
 
