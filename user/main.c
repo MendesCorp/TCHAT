@@ -5,8 +5,9 @@ int main(int argc, char** argv)
     t_delivery user;
     
     user.user_fd = initSocket();
-
-    char prenom [255]; strcpy(prenom, argv[1]);
+    int port = atoi(argv[1]);
+    int port_serv = atoi(argv[2]);
+    char prenom [255]; strcpy(prenom, argv[3]);
     strcpy(user.prenom, prenom);
 
     printf("\n###################### TCHAT ###################\n");
@@ -22,6 +23,9 @@ int main(int argc, char** argv)
     printf("Bienvenue %s\n", user.prenom);
     pthread_t send_thread;
     pthread_create(&send_thread, NULL, send_routine, &user);
+
+    pthread_t rcv_thread;
+    pthread_create(&rcv_thread, NULL, recv_routine, &user);
 
     
 

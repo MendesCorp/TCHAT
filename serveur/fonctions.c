@@ -98,7 +98,7 @@ pour expliquer à quoi sert la fonction
 void * traitement_rcv(void *arg)
 {
     
-    
+        
 // recup rcv client pour send au bon destinataire.
 
 
