@@ -4,9 +4,9 @@ int main(int argc, char** argv)
 {
     t_delivery user;
     
-    int port = atoi(argv[1]);
+    int user_port = atoi(argv[1]);
     int port_serv = atoi(argv[2]);
-    user.user_fd = initSocket(port, port_serv);
+    user.user_fd = initSocket(user_port, port_serv);
     char prenom [255]; strcpy(prenom, argv[3]);
     strcpy(user.prenom, prenom);
 

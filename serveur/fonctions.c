@@ -6,14 +6,14 @@ mise en place du socket serveur,
 liaison et écoute sur le port choisi
 */
 
-int initSocket() {
-
+int initSocket(int port_serv) 
+{
     int serv_fd = socket(AF_INET, SOCK_STREAM, 0); perror("socket");
     if(serv_fd == -1) return EXIT_FAILURE;
 
     struct sockaddr_in serv = {
         .sin_family = AF_INET,
-        .sin_port = htons(SERV_PORT),
+        .sin_port = htons(port_serv),
         .sin_addr.s_addr = INADDR_ANY
 
     };
@@ -24,7 +24,7 @@ int initSocket() {
     error = listen(serv_fd, BUFSIZ); perror("listen");
     if(error == -1) return EXIT_FAILURE;
 
-    printf("\nÉcoute en cours sur le port %d\n", SERV_PORT);
+    printf("\nÉcoute en cours sur le port %d\n", port_serv);
 
     return(serv_fd);
 }
@@ -34,7 +34,7 @@ boucle pour obtenir les "recv" des clients en boucle
 + thread ? 
 */
 
-void * recv_routine(void *arg)
+void * traitement_rcv(void *arg)
 {
     printf("recv_routine\n");
     
@@ -42,7 +42,7 @@ void * recv_routine(void *arg)
 
     t_delivery user;
     
-   
+   //int tableau fd clients = userfdstruct
     
     while(1) 
     {
@@ -50,21 +50,30 @@ void * recv_routine(void *arg)
         int nb_data_recved = recv(fd, &user, sizeof(t_delivery), 0); perror("rcv"); // *fd pour accéder à la valeur pointée
         printf("%s: %s \n",user.prenom,user.message);
         
+        for(int i = 0; i < compteur_clients; i++) 
+        {
+
+            send(clients_fd[i], &user, sizeof(t_delivery), 0); perror("send");
+            printf("%s: %s \n",user.prenom,user.message);
+        }
+        
         if(nb_data_recved == -1)
         {
             printf("erreur rcv//\n");
             continue;
         }
         
-        if(nb_data_recved == 0)
-        {
-            printf("utilisateur gone  :'(\n");continue;
-            //s ici entrer le code en cas d'utilisateur parti
-            // nb_users_quittants ++ ?
-        }
-    
+        
         //send(fd, &user,);
         
+        // if(nb_data_recved == 0)     // pb à fix rcv à l'infini
+        // {
+        //     printf("utilisateur gone  :'(\n");
+        //     nb_data_recved ++;
+        //     continue;
+        //     //s ici entrer le code en cas d'utilisateur parti
+        //     // nb_users_quittants ++ ?
+        // }
     }
     
 }
@@ -82,14 +91,17 @@ void * accept_routine(void *arg)
     printf("accept_routine\n");
 
     pthread_t recv_thread;
-    for(int i = 0; i < MAX_USERS; i++) {
+
+    for(int i = 0; i < MAX_USERS; i++) 
+    {
         
         int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");  // fd = valeur tampon
-        int client_fd = fd;
-        printf("%d\n",fd);
+        clients_fd[i] = fd;
+        printf("%d\n", clients_fd[i]);
         compteur_clients ++;
-        pthread_create(&recv_thread, NULL, recv_routine, &client_fd);
+        pthread_create(&recv_thread, NULL, traitement_rcv, &clients_fd[i]);
     }    
+    
     pthread_join(recv_thread,NULL);
 }
 
@@ -99,11 +111,3 @@ multiligne
 pour expliquer à quoi sert la fonction
 */
 
-// void * traitement_rcv(void *arg)
-// {
-    
-        
-// // recup rcv client pour send au bon destinataire.
-
-
-// }

@@ -1,11 +1,11 @@
 #pragma once
 
 #define MAX_USERS 50
-int users[MAX_USERS];
+//int users[MAX_USERS];
 int serv_fd; 
-int user_fd[MAX_USERS];
 int compteur_clients = 0;
-int nb_data_recved;
+int clients_fd[255];
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,7 +18,6 @@ int nb_data_recved;
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
 
-#define SERV_PORT 8958
 #define BUF_SIZE 500
 
 typedef struct delivery {

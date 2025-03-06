@@ -15,10 +15,7 @@ int identifiants_clients[MAX_USERS];
 // #include <dirent.h> // listing des fichiers
 // #include <fcntl.h>  // gérer ls fichiers
 #include <sys/stat.h> 
-#include <pthread.h> // pr ls threads
-
-#define USER_PORT 3958
-#define SERV_PORT 8958
+#include <pthread.h> // pr ls thread
 
 #define BUF_SIZE 500
 

@@ -1,14 +1,14 @@
 #pragma once
 #include "global.h"
 
-int initSocket(int port, int serv_port) 
+int initSocket(int user_port, int serv_port) 
 {
     int user_fd = socket(AF_INET, SOCK_STREAM, 0); perror("socket");
     if(user_fd == -1) return EXIT_FAILURE;
     
     struct sockaddr_in user = {
         .sin_family = AF_INET,
-        .sin_port = htons(port),
+        .sin_port = htons(user_port),
         .sin_addr.s_addr = INADDR_ANY
 
     };
@@ -62,6 +62,6 @@ void * recv_routine(void *arg)
         // pthread_create(&recv_thread, NULL, recv_routine, &serv_fd);
         // printf("fin du thread RCV \n");
 
-        printf("%s\n", rcv.message);
+        printf("%s : %s\n", rcv.prenom, rcv.message);
     }
 }
