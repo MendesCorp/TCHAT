@@ -62,8 +62,11 @@ void * recv_routine(void *arg)
             //s ici entrer le code en cas d'utilisateur parti
             // nb_users_quittants ++ ?
         }
+    
+        //send(fd, &user,);
         
     }
+    
 }
 
 /*
@@ -78,15 +81,16 @@ void * accept_routine(void *arg)
     socklen_t len;
     printf("accept_routine\n");
 
+    pthread_t recv_thread;
     for(int i = 0; i < MAX_USERS; i++) {
-
+        
         int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");  // fd = valeur tampon
         int client_fd = fd;
+        printf("%d\n",fd);
         compteur_clients ++;
-        pthread_t recv_thread;
         pthread_create(&recv_thread, NULL, recv_routine, &client_fd);
-        pthread_join(recv_thread,NULL);
     }    
+    pthread_join(recv_thread,NULL);
 }
 
 /*
@@ -95,11 +99,11 @@ multiligne
 pour expliquer à quoi sert la fonction
 */
 
-void * traitement_rcv(void *arg)
-{
+// void * traitement_rcv(void *arg)
+// {
     
         
-// recup rcv client pour send au bon destinataire.
+// // recup rcv client pour send au bon destinataire.
 
 
-}
+// }
