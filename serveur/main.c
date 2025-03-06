@@ -12,6 +12,27 @@ int main (int argc, char** argv)
     
     char buf[255]; memset(buf, 0, 255);
 
+    /*
+    on va créer le salong 
+    */
+
+    while(le serveur est ouvert et le client connecté) {
+        
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     close(serv_fd);
 

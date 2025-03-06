@@ -52,20 +52,19 @@ void * traitement_rcv(void *arg)
         
         for(int i = 0; i < compteur_clients; i++) 
         {
-
             send(clients_fd[i], &user, sizeof(t_delivery), 0); perror("send");
             printf("%s: %s \n",user.prenom,user.message);
         }
-        
+    
         if(nb_data_recved == -1)
         {
             printf("erreur rcv//\n");
             continue;
         }
         
-        
-        //send(fd, &user,);
-        
+        //if(user.id_room == idroom receptionneur)
+            
+
         // if(nb_data_recved == 0)     // pb à fix rcv à l'infini
         // {
         //     printf("utilisateur gone  :'(\n");
@@ -97,6 +96,7 @@ void * accept_routine(void *arg)
         
         int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");  // fd = valeur tampon
         clients_fd[i] = fd;
+        client_fd[i].clientroom = 0; // 0 = salon world
         printf("%d\n", clients_fd[i]);
         compteur_clients ++;
         pthread_create(&recv_thread, NULL, traitement_rcv, &clients_fd[i]);

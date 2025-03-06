@@ -23,7 +23,8 @@ typedef struct delivery {
     char prenom [255];
     int id_user;
     char message[255];
-    int salon;
+    int id_room;
+    int receptionneur;
     int user_fd;
 }t_delivery; 
 

@@ -6,6 +6,7 @@ int serv_fd;
 int compteur_clients = 0;
 int clients_fd[255];
 
+int clients_room[255];
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,7 +25,7 @@ typedef struct delivery {
     char prenom [255];
     int id_user;
     char message[255];
-    int salon;
+    int id_room;
     int user_fd;
 }t_delivery; 
 
