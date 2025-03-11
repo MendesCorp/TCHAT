@@ -1,10 +1,7 @@
 #pragma once
 
 #define MAX_USERS 50
-int users[MAX_USERS];
-
-int serv_fd; 
-int identifiants_clients[MAX_USERS];
+//int users[MAX_USERS];
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,22 +12,27 @@ int identifiants_clients[MAX_USERS];
 // #include <dirent.h> // listing des fichiers
 // #include <fcntl.h>  // gérer ls fichiers
 #include <sys/stat.h> 
-#include <pthread.h> // pr ls thread
+#include <pthread.h> // pr ls threads
+#include <errno.h>
 
-#define BUF_SIZE 500
+int serv_fd; 
+int compteur_clients = 0;
 
-typedef struct delivery {
-    char prenom [255];
-    int id_user;
-    char message[255];
+typedef struct user {
+    char name[255];
+    int user_fd[MAX_USERS];
     int id_room;
-    int receptionneur;
-    int user_fd;
-}t_delivery; 
+}t_user;
 
-typedef struct room {
-    int id_room;
-    char name;
-    int nb_users;
-}t_room;
-#include "fonctions.c"
+t_user users[MAX_USERS];
+
+typedef struct message {
+    char name[255];
+    int id_room;        //tag du salon
+    char message[1000];
+}t_message;
+
+//fichiers avec toutes les fonctions
+#include "user_sock.c"
+#include "send.c"
+#include "recv.c"
