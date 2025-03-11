@@ -35,7 +35,7 @@ void * traitement_rcv(void *arg)
                 
             if(nb_datas == 0)     // !!!!! pb à fix rcv à l'infini
             {
-                printf("utilisateur gone  :'(\n");
+                printf("user gone  :'(\n");
                 nb_datas ++;
                 continue;
             //     // nb_users_quittants ++ ?

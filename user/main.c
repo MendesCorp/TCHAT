@@ -2,13 +2,13 @@
 
 int main(int argc, char** argv) 
 {
-    t_delivery user;
+    t_user client;
     
     int user_port = atoi(argv[1]);
     int port_serv = atoi(argv[2]);
-    user.user_fd = initSocket(user_port, port_serv);
+    client.fd = initSocket(user_port, port_serv);
     char prenom [255]; strcpy(prenom, argv[3]);
-    strcpy(user.prenom, prenom);
+    strcpy(client.name, prenom);
 
     printf("\n###################### TCHAT ###################\n");
     printf("- create salon : créer un salon de discussion publique\n");
@@ -20,12 +20,12 @@ int main(int argc, char** argv)
     printf("- exit : Se déconnecter ou revenir en arrière\n");
     printf("################################################\n\n");
     
-    printf("Bienvenue %s\n", user.prenom);
+    printf("Bienvenue %s\n", client.name);
     pthread_t send_thread;
-    pthread_create(&send_thread, NULL, send_routine, &user);
+    pthread_create(&send_thread, NULL, send_routine, &client);
 
     pthread_t rcv_thread;
-    pthread_create(&rcv_thread, NULL, recv_routine, &user);
+    pthread_create(&rcv_thread, NULL, recv_routine, &client);
 
     
 
@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 
 
 
-    close(user.user_fd);
+    close(client.fd);
 
     return 0;
 }
