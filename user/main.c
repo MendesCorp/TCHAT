@@ -9,6 +9,7 @@ int main(int argc, char** argv)
     client.fd = initSocket(user_port, port_serv);
     char prenom [255]; strcpy(prenom, argv[3]);
     strcpy(client.name, prenom);
+
     printf("\n###################### TCHAT ###################\n");
     printf("- create salon : créer un salon de discussion publique\n");
     printf("- list users: Lister les utilisateurs connectés\n");
@@ -27,6 +28,15 @@ int main(int argc, char** argv)
     pthread_create(&rcv_thread, NULL, recv_routine, &client);
 
     
+
+
+
+
+
+
+
+
+
 
     while(1){}
 

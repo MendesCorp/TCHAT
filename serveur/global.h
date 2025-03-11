@@ -13,14 +13,14 @@
 // #include <fcntl.h>  // gérer ls fichiers
 #include <sys/stat.h> 
 #include <pthread.h> // pr ls threads
+#include <errno.h>
 
 int serv_fd; 
-int users_fd[MAX_USERS];
 int compteur_clients = 0;
 
 typedef struct user {
     char name[255];
-    int fd;
+    int user_fd[MAX_USERS];
     int id_room;
 }t_user;
 
@@ -32,4 +32,7 @@ typedef struct message {
     char message[1000];
 }t_message;
 
-#include "fonctions.c"
+//fichiers avec toutes les fonctions
+#include "socket.c"
+#include "receve.c"
+#include "accept.c"
