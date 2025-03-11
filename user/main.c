@@ -20,7 +20,11 @@ int main(int argc, char** argv)
     printf("- exit : Se déconnecter ou revenir en arrière\n");
     printf("################################################\n\n");
     
+
     printf("Bienvenue %s\n", client.name);
+
+    printf("Bienvenue %s\n\n", client.name);
+
     pthread_t send_thread;
     pthread_create(&send_thread, NULL, send_routine, &client);
 
@@ -28,6 +32,15 @@ int main(int argc, char** argv)
     pthread_create(&rcv_thread, NULL, recv_routine, &client);
 
     
+
+
+
+
+
+
+
+
+
 
     while(1){}
 
