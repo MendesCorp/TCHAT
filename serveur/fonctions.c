@@ -1,4 +1,5 @@
 #pragma once
+
 #include "global.h"
 
 /*
@@ -36,49 +37,47 @@ boucle pour obtenir les "recv" des clients en boucle
 
 void * traitement_rcv(void *arg)
 {
-    printf("recv_routine\n");
+    printf("RECV ✅\n");
     
-    int fd = *(int*) arg;   // transtypage void* arg en int
-
-    t_delivery user;
-    
-   //int tableau fd clients = userfdstruct
+    t_user client = *((t_user*) arg);   // transtypage void* arg en int
+    t_message colis;
     
     while(1) 
     {
-        
-        int nb_data_recved = recv(fd, &user, sizeof(t_delivery), 0); perror("rcv"); // *fd pour accéder à la valeur pointée
-        printf("%s: %s \n",user.prenom,user.message);
-        
+
         for(int i = 0; i < compteur_clients; i++) 
         {
-            send(clients_fd[i], &user, sizeof(t_delivery), 0); perror("send");
-            printf("%s: %s \n",user.prenom,user.message);
-        }
-    
-        if(nb_data_recved == -1)
-        {
-            printf("erreur rcv//\n");
-            continue;
-        }
-        
-        //if(user.id_room == idroom receptionneur)
-            
+            int nb_datas = recv(client.fd, &colis, sizeof(t_message), 0); perror("rcv"); // *fd pour accéder à la valeur pointée
+            printf("%s: %s \n", colis.name, colis.message);
 
-        // if(nb_data_recved == 0)     // pb à fix rcv à l'infini
-        // {
-        //     printf("utilisateur gone  :'(\n");
-        //     nb_data_recved ++;
-        //     continue;
-        //     //s ici entrer le code en cas d'utilisateur parti
-        //     // nb_users_quittants ++ ?
-        // }
+            // printf("SEND ✅\n");
+            // send(users_fd[i], &colis, sizeof(t_message), 0); perror("send");
+            // printf("%s: %s \n", colis.name, colis.message);
+    
+    
+            if(nb_datas == -1)
+            {
+                printf("erreur rcv//\n");
+                continue;
+            }
+            
+            // //(user.id_room == idroom receptionneur)
+                
+
+            if(nb_datas == 0)     // !!!!! pb à fix rcv à l'infini
+            {
+                printf("utilisateur gone  :'(\n");
+                nb_datas ++;
+                continue;
+            //     // nb_users_quittants ++ ?
+            }
+        }
     }
     
 }
 
 /*
-fonction "accept" pour pouvoir modifier le fd client, 
+fonction "accept" pour pouvoir modifier le fd client
 
 */
 
@@ -87,19 +86,21 @@ void * accept_routine(void *arg)
     // "struct" client
     struct sockaddr_in user;
     socklen_t len;
-    printf("accept_routine\n");
+    printf("ACCEPT ✅\n");
 
     pthread_t recv_thread;
 
     for(int i = 0; i < MAX_USERS; i++) 
     {
+        t_user user_infos;
         
         int fd = accept(serv_fd, (struct sockaddr*)&user, &len); perror("accept");  // fd = valeur tampon
-        clients_fd[i] = fd;
-        client_fd[i].clientroom = 0; // 0 = salon world
-        printf("%d\n", clients_fd[i]);
+        users[i].fd = fd;
+        users_fd[i]=fd;
+        //users[i].room = 0; /// 0 == world
+
         compteur_clients ++;
-        pthread_create(&recv_thread, NULL, traitement_rcv, &clients_fd[i]);
+        pthread_create(&recv_thread, NULL, traitement_rcv, &users[i]);
     }    
     
     pthread_join(recv_thread,NULL);

@@ -32,19 +32,27 @@ int initSocket(int user_port, int serv_port)
 void * send_routine(void *arg)
 {
 
-   t_delivery user = *(t_delivery*)arg;
+   t_user client = *(t_user*)arg;
    // int* user_fd= (int*)arg;
+   t_message colis; 
+   colis.name == client.name;
+   printf("%s : %s\n", colis.name, colis.message);
+   
+    
+    char buf[255]; memset(buf, 0, 255);
+
     while(1) {
 
-        char buf[255];memset(buf, 0, 255);
-
-        printf("send_routine\n");
-
         fgets(buf,sizeof(buf),stdin);
-        strcpy(user.message, buf);
+        buf[strlen(buf)-1] = 0;     // rm \n
         
-        int error = send(user.user_fd, &user, sizeof(t_delivery), 0); perror("send");
-        printf("%s: %s \n",user.prenom,user.message);
+        strcpy(colis.message, buf);
+        
+        /*
+        envoi du colis à la bonne adresse avec la bonne taille de struct 
+        */
+        int error = send(client.fd, &colis, sizeof(t_message), 0); perror("send");
+        //printf("%s: %s \n",colis.name, colis.message);
         if (error == -1) printf("erreur\n"); 
     }
 }
@@ -53,15 +61,15 @@ void * recv_routine(void *arg)
 {
     while(1)
     {
-    t_delivery rcv = *(t_delivery*)arg;
-        int error = recv(rcv.user_fd, &rcv, sizeof(t_delivery), 0); perror("recv");
+        
+        t_user mailbox = *(t_user*)arg;
+      
+        int error = recv(mailbox.fd, &mailbox, sizeof(t_user), 0); perror("recv");
         if(error == -1) printf("erreur\n");
 
         // printf("début du thread RCV\n");
         // pthread_t recv_thread;
         // pthread_create(&recv_thread, NULL, recv_routine, &serv_fd);
         // printf("fin du thread RCV \n");
-
-        printf("%s : %s\n", rcv.prenom, rcv.message);
     }
 }

@@ -10,29 +10,6 @@ int main (int argc, char** argv)
     pthread_create(&accept_thread, NULL, accept_routine, NULL);
     pthread_join(accept_thread,NULL);
     
-    char buf[255]; memset(buf, 0, 255);
-
-    /*
-    on va créer le salong 
-    */
-
-    while(le serveur est ouvert et le client connecté) {
-        
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     close(serv_fd);
 
