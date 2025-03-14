@@ -20,7 +20,7 @@ int compteur_clients = 0;
 
 typedef struct user {
     char name[255];
-    int user_fd[MAX_USERS];
+    int fd;
     int id_room;
 }t_user;
 
@@ -34,5 +34,6 @@ typedef struct message {
 
 //fichiers avec toutes les fonctions
 #include "socket.c"
-#include "receve.c"
+
+#include "recev.c"
 #include "accept.c"
